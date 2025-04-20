@@ -7,6 +7,8 @@ import { Response, Request } from "express";
 // import { ExpressError } from "../ExpressError/ExpressError.ts";
 const app = express();
 
+/** @ErrorType Error type checking used in express error handling.  */
+
 type ErrorType = {
   message: string;
   status: number;
@@ -25,6 +27,16 @@ async function main() {
     console.log("Connected to DB");
   }
 }
+
+// Test routes
+// app.get("/", (req, res) => {
+//   res.status(200).json({ message: "hello" });
+// });
+
+// Setup mongo store for storing sessions
+const store = {
+  mongoUrl: process.env.MONGO_CONNECT,
+};
 
 // Error handling - page not found
 /** @_req uses the underscore to indicate it’s unused  to avoid parsing errors for using "*" as path*/
