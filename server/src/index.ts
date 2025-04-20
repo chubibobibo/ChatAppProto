@@ -5,10 +5,12 @@ import cors from "cors";
 import { StatusCodes } from "http-status-codes";
 import { Response, Request } from "express";
 // import { ExpressError } from "../ExpressError/ExpressError.ts";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import { ExpressError } from "./ExpressError/ExpressError";
 const app = express();
 
 /** @ErrorType Error type checking used in express error handling.  */
-
 type ErrorType = {
   message: string;
   status: number;
@@ -34,9 +36,41 @@ async function main() {
 // });
 
 // Setup mongo store for storing sessions
-const store = {
-  mongoUrl: process.env.MONGO_CONNECT,
-};
+// type check cryptoSecretString to avoid type errors
+const mongoUrlString = process.env.MONGO_CONNECT;
+const cryptoSecretString = process.env.CRYPTO_SECRET;
+if (!cryptoSecretString) {
+  throw new ExpressError("No crypto secret string", 400);
+}
+const store = MongoStore.create({
+  mongoUrl: mongoUrlString,
+  touchAfter: 24 * 3600, // in seconds = 1 day
+  crypto: {
+    secret: cryptoSecretString,
+  },
+});
+
+//setup express sessions
+const sessionSecretString = process.env.SESSION_SECRET;
+if (!sessionSecretString) {
+  throw new ExpressError("No session secret string", 400);
+}
+app.set("trust proxy", 1); //trust first proxy
+app.use(
+  session({
+    store,
+    name: process.env.SESSION_NAME,
+    secret: sessionSecretString,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      expires: new Date(Date.now() * 1000 * 60 * 60 * 24 * 7),
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+  })
+);
 
 // Error handling - page not found
 /** @_req uses the underscore to indicate it’s unused  to avoid parsing errors for using "*" as path*/
