@@ -77,11 +77,11 @@ app.use(
 );
 
 // configure passport
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize()); //initializes passport for incoming requests
+app.use(passport.session()); // creates a passport object (contains user data) in session
 
 //configure passport local mongoose
-passport.use(UserModel.createStrategy());
+passport.use(UserModel.createStrategy()); // uses local strategy implemented as plugin in UserSchema
 passport.serializeUser(UserModel.serializeUser());
 passport.deserializeUser(UserModel.deserializeUser());
 

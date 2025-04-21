@@ -35,7 +35,7 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose); // creates a unique username and password
 
 const UserModel = mongoose.model("UserModel", UserSchema);
 export default UserModel;
