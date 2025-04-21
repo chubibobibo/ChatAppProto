@@ -8,6 +8,10 @@ import { Response, Request } from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import { ExpressError } from "./ExpressError/ExpressError";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import UserModel from "./models/UserSchema";
+import userRoutes from "./routes/userRoutes";
 const app = express();
 
 /** @ErrorType Error type checking used in express error handling.  */
@@ -71,6 +75,18 @@ app.use(
     },
   })
 );
+
+// configure passport
+app.use(passport.initialize()); //initializes passport for incoming requests
+app.use(passport.session()); // creates a passport object (contains user data) in session
+
+//configure passport local mongoose
+passport.use(UserModel.createStrategy()); // uses local strategy implemented as plugin in UserSchema
+passport.serializeUser(UserModel.serializeUser());
+passport.deserializeUser(UserModel.deserializeUser());
+
+// Routing
+app.use("/api/auth", userRoutes);
 
 // Error handling - page not found
 /** @_req uses the underscore to indicate it’s unused  to avoid parsing errors for using "*" as path*/

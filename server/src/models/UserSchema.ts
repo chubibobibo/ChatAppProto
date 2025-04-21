@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { roles } from "../utils/roles";
 
+import passportLocalMongoose from "passport-local-mongoose";
+
 const { Schema } = mongoose;
 
 const UserSchema = new Schema(
@@ -32,6 +34,8 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 );
+
+UserSchema.plugin(passportLocalMongoose); // creates a unique username and password
 
 const UserModel = mongoose.model("UserModel", UserSchema);
 export default UserModel;
