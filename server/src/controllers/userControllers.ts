@@ -32,3 +32,25 @@ export const registerUser = async (
     next(err);
   }
 };
+
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.body) {
+    throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+  }
+  try {
+    const foundUser = await UserModel.findOne({ username: req.body.username });
+    if (!foundUser) {
+      throw new ExpressError("User does not exist", StatusCodes.BAD_REQUEST);
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ message: "User successfully looged in", foundUser });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
