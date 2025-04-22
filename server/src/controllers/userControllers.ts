@@ -33,7 +33,7 @@ export const registerUser = async (
   }
 };
 
-export const login = async (
+export const loginUser = async (
   req: Request,
   res: Response,
   next: NextFunction
