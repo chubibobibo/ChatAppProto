@@ -1,9 +1,24 @@
 import express, { NextFunction, Response, Request } from "express";
 import { registerUser, loginUser } from "../controllers/userControllers";
-import { registerUserValidation } from "../middleware/inputValidations";
+import {
+  registerUserValidation,
+  loginUserValidation,
+} from "../middleware/inputValidations";
 import passport from "passport";
 import { StatusCodes } from "http-status-codes";
+import { rateLimit } from "express-rate-limit";
+
 const router = express.Router();
+
+//Api request limit
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minutes
+  limit: 3, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  // store: ... , // Redis, Memcached, etc. See below.
+  message: "Too many requests, try again after 10 minutes",
+});
 
 router.post("/register", registerUserValidation, registerUser);
 
@@ -12,6 +27,8 @@ router.post("/register", registerUserValidation, registerUser);
 /** @info will contain err messages */
 router.post(
   "/login",
+  limiter,
+  loginUserValidation,
   (req: Request, res: Response, next: NextFunction) => {
     // if there is an err during authentication, it is passed to the next middleware or route
     passport.authenticate(
