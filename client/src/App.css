@@ -3,3 +3,9 @@
 * {
   font-family: Montserrat;
 }
+
+@layer components {
+  .header-title {
+    @apply flex flex-col justify-center items-center p-5 pt-16 text-3xl font-semibold md:pt-[15rem] md:text-[60px];
+  }
+}
