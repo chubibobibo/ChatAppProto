@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 //pages and component imports
 import { ErrorPage, HomeLayout, LoginPage, RegisterPage } from "./utils";
 
+import { action as LoginAction } from "./pages/LoginPage";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -13,6 +15,7 @@ function App() {
         {
           path: "login",
           element: <LoginPage />,
+          action: LoginAction,
         },
         {
           path: "register",
