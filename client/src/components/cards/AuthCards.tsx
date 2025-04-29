@@ -1,38 +1,49 @@
 import { FaRegUser } from "react-icons/fa";
 import BtnCustomBlue from "../btn/BtnCustomBlue";
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 function AuthCards() {
   return (
     <>
-      <div className='card w-96 bg-base-100 card-md shadow-md'>
-        <div className='card-body '>
+      <div className='flex justify-center card mt-4 mb-2 w-74 h-[35rem] bg-base-100 card-md shadow-md md:h-[30rem] md:w-[40rem]'>
+        <div className='card-body mt-0'>
+          <img
+            src='./src/assets/logo.png'
+            alt=''
+            className='object-screen md:hidden'
+          />
           <h2 className='card-title pb-2'>Login</h2>
           {/** input fields */}
-          <Form method='POST' className='flex flex-col gap-4'>
-            <label className='input'>
-              <FaRegUser color='gray' />
-              <input
-                type='input'
-                required
-                placeholder='Username'
-                name='username'
-              />
-            </label>
-            <label className='input'>
-              <FaRegUser color='gray' />
-              <input
-                type='password'
-                required
-                placeholder='Password'
-                name='password'
-              />
-            </label>
-            {/** input fields */}
-            <div className='justify-end card-actions'>
+          <Form method='POST'>
+            <section className='flex flex-col gap-4 md:mt-22'>
+              <label className='input w-full'>
+                <FaRegUser color='gray' />
+                <input
+                  type='input'
+                  required
+                  placeholder='Username'
+                  name='username'
+                />
+              </label>
+              <label className='input w-full'>
+                <FaRegUser color='gray' />
+                <input
+                  type='password'
+                  required
+                  placeholder='Password'
+                  name='password'
+                />
+              </label>
               <BtnCustomBlue name={"Login"} type={"submit"} />
-            </div>
+            </section>
+            {/** input fields */}
           </Form>
+          <p className='text-xs'>
+            Don't have an account yet?{" "}
+            <Link to='/register' className='text-blue-500'>
+              Register here
+            </Link>
+          </p>
         </div>
       </div>
     </>

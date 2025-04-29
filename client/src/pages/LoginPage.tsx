@@ -26,9 +26,25 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 function LoginPage() {
+  /** @picture and @source tags used to provide different sources of imgs depending on screen sizes */
+
   return (
-    <section className='flex justify-center items-center pt-28 px-2 md:pt-80'>
-      <AuthCards />
+    <section className='flex flex-col justify-center items-center bg-gray-200 h-screen md:grid md:grid-cols-2 md:gap-2'>
+      {/* <picture>
+        <source
+          media='(min-width: 200px)'
+          srcSet='./src/assets/chat_logo.jpg'
+        />
+        <source media='(min-width: 465px)' srcSet='.src/assets/logo.png' /> */}
+      <img
+        src='./src/assets/chat_logo.jpg'
+        alt=''
+        className='h-full hidden object-fill md:h-screen md:flex md:object-cover md:w-screen'
+      />
+      {/* </picture> */}
+      <aside className='md:flex md:justify-center'>
+        <AuthCards />
+      </aside>
     </section>
   );
 }
