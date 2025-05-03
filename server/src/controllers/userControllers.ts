@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import UserModel from "../models/UserSchema";
+import { UserType } from "../utils/types";
+import { RequestHandler } from "express";
 
 /** @isAdmin determines if registered user is the first entry making it the admin*/
 
@@ -48,9 +50,44 @@ export const loginUser = async (
     }
     res
       .status(StatusCodes.OK)
-      .json({ message: "User successfully looged in", foundUser });
+      .json({ message: "User successfully logged in", foundUser });
   } catch (err) {
     console.log(err);
     next(err);
   }
 };
+
+export const logoutUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ message: "User logged out successfully" });
+  });
+};
+
+export const getLoggedUser = async (req: Request, res: Response) => {
+  const loggedUser = await UserModel.findById(req.user);
+  if (!loggedUser) {
+    throw new ExpressError("User is not logged in", StatusCodes.UNAUTHORIZED);
+  }
+  res.status(StatusCodes.OK).json({ message: "logged user", loggedUser });
+};
+
+// export const updateUser: RequestHandler = async (req, res) => {
+//   if (!req.body) {
+//     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+//   }
+//   const { id } = req.params;
+
+//   const updatedUser = await UserModel.findByIdAndUpdate(
+//     req.user._id,
+//     req.body
+//   );
+// };
