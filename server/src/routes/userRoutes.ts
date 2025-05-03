@@ -1,5 +1,11 @@
 import express, { NextFunction, Response, Request } from "express";
-import { registerUser, loginUser } from "../controllers/userControllers";
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getLoggedUser,
+  // updateUser,
+} from "../controllers/userControllers";
 import {
   registerUserValidation,
   loginUserValidation,
@@ -58,5 +64,11 @@ router.post(
   },
   loginUser
 );
+
+router.post("/logout", logoutUser);
+
+router.get("/getLoggedUser", getLoggedUser);
+
+// router.patch("/updateUser/:id", updateUser);
 
 export default router;
