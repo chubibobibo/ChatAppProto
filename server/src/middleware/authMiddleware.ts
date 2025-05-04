@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
+import { ExpressError } from "../ExpressError/ExpressError";
 
 /** @isAuthenticated method from passport */
 
@@ -9,9 +10,7 @@ export const isLoggedIn = async (
   next: NextFunction
 ) => {
   if (!req.isAuthenticated()) {
-    res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "User is not authenticated" });
+    throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
   }
   next();
 };
