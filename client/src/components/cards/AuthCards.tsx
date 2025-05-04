@@ -1,11 +1,12 @@
 import { FaRegUser } from "react-icons/fa";
+import { IoKeyOutline } from "react-icons/io5";
 import BtnCustomBlue from "../btn/BtnCustomBlue";
 import { Form, Link } from "react-router-dom";
 
 function AuthCards() {
   return (
     <>
-      <div className='flex justify-center card mt-4 mb-2 w-74 h-[35rem] bg-base-100 card-md shadow-md md:h-[30rem] md:w-[40rem]'>
+      <div className='flex justify-center card mt-4 mb-2 w-74 h-[32rem] bg-base-100 card-md shadow-md md:h-[30rem] md:w-[40rem]'>
         <div className='card-body mt-0'>
           <img
             src='./src/assets/logo.png'
@@ -26,7 +27,7 @@ function AuthCards() {
                 />
               </label>
               <label className='input w-full'>
-                <FaRegUser color='gray' />
+                <IoKeyOutline color='gray' size={18} />
                 <input
                   type='password'
                   required
@@ -38,7 +39,7 @@ function AuthCards() {
             </section>
             {/** input fields */}
           </Form>
-          <p className='text-xs'>
+          <p className='text-xs text-center'>
             Don't have an account yet?{" "}
             <Link to='/register' className='text-blue-500'>
               Register here
