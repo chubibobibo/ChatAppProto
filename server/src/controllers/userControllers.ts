@@ -4,9 +4,11 @@ import { StatusCodes } from "http-status-codes";
 import UserModel from "../models/UserSchema";
 import { UserType } from "../utils/types";
 import { RequestHandler } from "express";
+import { BodyPassword } from "../utils/types";
 
 /** @isAdmin determines if registered user is the first entry making it the admin*/
 
+/** REGISTER USER */
 export const registerUser = async (
   req: Request,
   res: Response,
@@ -35,6 +37,7 @@ export const registerUser = async (
   }
 };
 
+/** LOGGING IN USER */
 export const loginUser = async (
   req: Request,
   res: Response,
@@ -57,6 +60,7 @@ export const loginUser = async (
   }
 };
 
+/** LOGGING OUT */
 export const logoutUser = async (
   req: Request,
   res: Response,
@@ -72,6 +76,7 @@ export const logoutUser = async (
   });
 };
 
+/** GET LOGGED USER */
 export const getLoggedUser = async (req: Request, res: Response) => {
   const loggedUser = await UserModel.findById(req.user);
   if (!loggedUser) {
@@ -80,14 +85,29 @@ export const getLoggedUser = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ message: "logged user", loggedUser });
 };
 
-// export const updateUser: RequestHandler = async (req, res) => {
-//   if (!req.body) {
-//     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
-//   }
-//   const { id } = req.params;
+/** UPDATE USER */
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body as BodyPassword;
 
-//   const updatedUser = await UserModel.findByIdAndUpdate(
-//     req.user._id,
-//     req.body
-//   );
-// };
+    if (!req.body) {
+      throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+    }
+    const foundUser = await UserModel.findById(id);
+    if (!foundUser) {
+      throw new ExpressError("No user found", StatusCodes.BAD_REQUEST);
+    } else {
+      await foundUser.setPassword(password);
+      await foundUser.save();
+      const updatedUser = await UserModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res
+        .status(StatusCodes.OK)
+        .json({ message: "User is successfully updated", updatedUser });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};

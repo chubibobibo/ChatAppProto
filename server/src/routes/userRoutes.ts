@@ -4,7 +4,7 @@ import {
   loginUser,
   logoutUser,
   getLoggedUser,
-  // updateUser,
+  updateUser,
 } from "../controllers/userControllers";
 import {
   registerUserValidation,
@@ -13,6 +13,7 @@ import {
 import passport from "passport";
 import { StatusCodes } from "http-status-codes";
 import { rateLimit } from "express-rate-limit";
+import { isLoggedIn } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
@@ -69,6 +70,6 @@ router.post("/logout", logoutUser);
 
 router.get("/getLoggedUser", getLoggedUser);
 
-// router.patch("/updateUser/:id", updateUser);
+router.patch("/updateUser/:id", isLoggedIn, updateUser);
 
 export default router;
