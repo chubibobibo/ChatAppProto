@@ -91,9 +91,6 @@ export const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { password } = req.body as BodyPassword;
 
-    if (!req.body) {
-      throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
-    }
     const foundUser = await UserModel.findById(id);
     if (!foundUser) {
       throw new ExpressError("No user found", StatusCodes.BAD_REQUEST);
