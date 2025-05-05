@@ -39,7 +39,7 @@ function AuthCards() {
             </section>
             {/** input fields */}
           </Form>
-          <p className='text-xs text-center'>
+          <p className='text-xs text--c'>
             Don't have an account yet?{" "}
             <Link to='/register' className='text-blue-500'>
               Register here

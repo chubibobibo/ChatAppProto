@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 import { ActionFunction, redirect } from "react-router-dom";
 
 /** @password1 @password2 obtained using formData.get to compare both password fields  */
+/** @formData does not need to be converted into an object using Object.fromEntries() because of multer */
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData(); // obtains data from the form
   const password1 = formData.get("password1");
   const password2 = formData.get("password2");
-  console.log(password1, password2);
   if (password1 !== password2) {
     return toast.error("Passwords do not match");
   } else {
@@ -19,9 +19,9 @@ export const action: ActionFunction = async ({ request }) => {
     }
   }
 
-  const data = Object.fromEntries(formData); // converts formData into objects
+  // const data = Object.fromEntries(formData); // converts formData into objects
   try {
-    await axios.post("/api/auth/register", data);
+    await axios.post("/api/auth/register", formData);
     toast.success("User successfully registered");
     return redirect("/login");
   } catch (err) {
