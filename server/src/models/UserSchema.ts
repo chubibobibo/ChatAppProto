@@ -31,6 +31,14 @@ const UserSchema = new Schema(
       type: String,
       enum: Object.values(roles),
     },
+
+    photoUrl: {
+      type: String,
+    },
+
+    photoId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

@@ -15,6 +15,7 @@ import passport from "passport";
 import { StatusCodes } from "http-status-codes";
 import { rateLimit } from "express-rate-limit";
 import { isLoggedIn } from "../middleware/authMiddleware";
+import { upload } from "../middleware/multerMiddleware";
 
 const router = express.Router();
 
@@ -28,7 +29,12 @@ const limiter = rateLimit({
   message: "Too many requests, try again after 10 minutes",
 });
 
-router.post("/register", registerUserValidation, registerUser);
+router.post(
+  "/register",
+  upload.single("photoUrl"),
+  registerUserValidation,
+  registerUser
+);
 
 /** @authenticate passport method that authenticates using the local strategy  */
 /** @user if auth is successful this will be the user obj */

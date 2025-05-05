@@ -12,6 +12,8 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import UserModel from "./models/UserSchema";
 import userRoutes from "./routes/userRoutes";
+import { v2 as cloudinary } from "cloudinary";
+
 const app = express();
 
 /** @ErrorType Error type checking used in express error handling.  */
@@ -22,10 +24,10 @@ type ErrorType = {
 
 dotenv.config();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); //parses data and populates req.body if content is application/x-www-form-urlencoded
 app.use(cors());
 
 //mongoose connection
-// getting-started.js
 main().catch((err) => console.log(err));
 async function main() {
   if (process.env.MONGO_CONNECT) {
@@ -34,10 +36,19 @@ async function main() {
   }
 }
 
-// Test routes
-// app.get("/", (req, res) => {
-//   res.status(200).json({ message: "hello" });
-// });
+//configure cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+  secure: true,
+});
+
+//serving public folder
+//const __dirname = dirname(fileURLToPath(import.meta.url));
+//app.use(express.static(path.resolve(__dirname,'./public')));
+//replace with this for typescript...
+app.use(express.static("./src/public"));
 
 // Setup mongo store for storing sessions
 // type check cryptoSecretString to avoid type errors
