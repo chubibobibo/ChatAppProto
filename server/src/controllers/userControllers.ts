@@ -5,6 +5,8 @@ import UserModel from "../models/UserSchema";
 import { UserType } from "../utils/types";
 import { RequestHandler } from "express";
 import { BodyPassword } from "../utils/types";
+import cloudinary from "cloudinary";
+import fs from "fs";
 
 /** @isAdmin determines if registered user is the first entry making it the admin*/
 
@@ -20,6 +22,23 @@ export const registerUser = async (
   try {
     const isAdmin = (await UserModel.countDocuments()) === 0;
     req.body.role = isAdmin ? "admin" : "user";
+    console.log(req.file);
+    if (req.file) {
+      const response = await cloudinary.v2.uploader.upload(req.file.path, {
+        folder: "ChatApp",
+        quality: 70,
+      }); //sending the path of req.file to cloudinary api
+      fs.unlink(req.file.path, (err) => {
+        // removes uploaded photo in the uploads folder
+        console.log(err);
+      });
+      if (!response) {
+        throw new ExpressError("Cannot upload photo", StatusCodes.BAD_REQUEST);
+      } else {
+        req.body.photoUrl = response.secure_url;
+        req.body.photoId = response.public_id;
+      }
+    }
     const registeredUser = await UserModel.create(req.body);
     await registeredUser.setPassword(req.body.password);
     await registeredUser.save();
@@ -27,7 +46,6 @@ export const registerUser = async (
     if (!registeredUser) {
       throw new ExpressError("Cannot register user", StatusCodes.BAD_REQUEST);
     }
-
     res
       .status(StatusCodes.OK)
       .json({ message: "Registered user successfully", registeredUser });
