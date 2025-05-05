@@ -82,3 +82,55 @@ export const loginUserValidation = withValidationErrors([
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
 ]);
+
+/** @param id prevents updating of user profile for unauthorized users */
+/** obtains id from the form and verifies if the logged user(req.user._id) are not the same */
+/** id and req.user._id must be converted into strings to match */
+export const updateUserValidation = withValidationErrors([
+  body("username")
+    .notEmpty()
+    .withMessage("Username cannot be empty")
+    .isLength({ min: 5 })
+    .withMessage("Username must be at least 5 characters")
+    .custom(async (username, { req }) => {
+      const foundUsername = await UserModel.findOne({ username: username });
+      if (foundUsername && req.user.username !== foundUsername.username) {
+        throw new ExpressError(
+          "Username already exist",
+          StatusCodes.BAD_REQUEST
+        );
+      }
+    }),
+  body("firstName")
+    .notEmpty()
+    .withMessage("First name cannot be empty ")
+    .isLength({ min: 5 })
+    .withMessage("First name must be at least 5 characters"),
+  body("lastName")
+    .notEmpty()
+    .withMessage("Last name cannot be empty")
+    .isLength({ min: 5 })
+    .withMessage("Last name must be at least 5 characters"),
+  body("email")
+    .isEmail()
+    .withMessage("Email must be a valid email address")
+    .custom(async (email, { req }) => {
+      const foundEmail = await UserModel.findOne({ email: email });
+      if (foundEmail && req.user.email !== foundEmail.email) {
+        throw new ExpressError("Email already exist", StatusCodes.BAD_REQUEST);
+      }
+    }),
+  body("password")
+    .notEmpty()
+    .withMessage("Password cannot be empty")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
+  param("id").custom(async (id, { req }) => {
+    if (id.toString() !== req.user._id.toString()) {
+      throw new ExpressError(
+        "User is not authorized.",
+        StatusCodes.UNAUTHORIZED
+      );
+    }
+  }),
+]);

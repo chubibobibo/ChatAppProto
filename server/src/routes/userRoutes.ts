@@ -9,6 +9,7 @@ import {
 import {
   registerUserValidation,
   loginUserValidation,
+  updateUserValidation,
 } from "../middleware/inputValidations";
 import passport from "passport";
 import { StatusCodes } from "http-status-codes";
@@ -70,6 +71,6 @@ router.post("/logout", logoutUser);
 
 router.get("/getLoggedUser", getLoggedUser);
 
-router.patch("/updateUser/:id", isLoggedIn, updateUser);
+router.patch("/updateUser/:id", isLoggedIn, updateUserValidation, updateUser);
 
 export default router;
