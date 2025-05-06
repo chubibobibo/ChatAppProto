@@ -1,0 +1,29 @@
+@import "tailwindcss";
+* {
+  font-family: Montserrat;
+}
+
+/** Custom tailwind colors*/
+@theme {
+  /**Buttons*/
+  --color-btn-blue: #1872f6;
+  /**Color Palette*/
+  --color-custom-green: #0ea06f;
+}
+
+/** Reusable classname styling*/
+@layer components {
+  /* .custom-btn-blue {
+    @apply bg-linear-to-b from-sky-500 to-btn-blue;
+  } */
+}
+
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+@layer components {
+  .header-title {
+    @apply flex flex-col justify-center items-center p-5 pt-16 text-3xl font-semibold md:pt-[15rem] md:text-[60px];
+  }
+}
