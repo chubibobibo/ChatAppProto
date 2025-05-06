@@ -13,6 +13,7 @@ import { action as LoginAction } from "./pages/LoginPage";
 import { action as RegisterAction } from "./pages/RegisterPage";
 
 import LoggedUserContextProvider from "./context/LoggedUserContextProvider";
+import ProtectComponent from "./utils/ProtectComponent";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,9 +26,11 @@ function App() {
           path: "/",
           index: true,
           element: (
-            <LoggedUserContextProvider>
-              <HomePage />
-            </LoggedUserContextProvider>
+            <ProtectComponent>
+              <LoggedUserContextProvider>
+                <HomePage />
+              </LoggedUserContextProvider>
+            </ProtectComponent>
           ),
         },
         {

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { GetLoggedUserContext } from "../context/ContextData";
 function Navbar() {
   const userData = useContext(GetLoggedUserContext);
+  console.log(userData);
   return (
     <>
       <div className='navbar bg-base-100 shadow-sm'>
@@ -64,7 +65,11 @@ function Navbar() {
                 <div className='w-10 rounded-full'>
                   <img
                     alt='Tailwind CSS Navbar component'
-                    src='https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'
+                    src={
+                      userData?.photoUrl
+                        ? userData?.photoUrl
+                        : "../src/assets/defaultImg.jpg"
+                    }
                   />
                 </div>
               </div>
