@@ -7,7 +7,7 @@ import { ToastContainer, Zoom } from "react-toastify";
 /** @contextClass object to apply colors to toast alerts */
 const contextClass = {
   success: "bg-custom-green",
-  error: "bg-red-600",
+  error: "bg-red-300 text-white ",
   info: "bg-gray-600",
   warning: "bg-orange-400",
   default: "bg-indigo-600",
