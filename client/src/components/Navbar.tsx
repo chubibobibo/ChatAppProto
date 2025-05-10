@@ -1,8 +1,23 @@
 import { useContext } from "react";
 import { GetLoggedUserContext } from "../context/ContextData";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 function Navbar() {
   const userData = useContext(GetLoggedUserContext);
+  const navigate = useNavigate();
   console.log(userData);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/auth/logout");
+      navigate("/login");
+      toast.success(`${userData?.username} successfully logged out`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <div className='navbar bg-base-100 shadow-sm'>
@@ -88,7 +103,7 @@ function Navbar() {
                   <a>Settings</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <a onClick={handleLogout}>Logout</a>
                 </li>
               </ul>
             </div>
