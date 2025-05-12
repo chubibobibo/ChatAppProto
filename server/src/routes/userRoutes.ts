@@ -5,6 +5,7 @@ import {
   logoutUser,
   getLoggedUser,
   updateUser,
+  getChatUsers,
 } from "../controllers/userControllers";
 import {
   registerUserValidation,
@@ -72,6 +73,8 @@ router.post(
   },
   loginUser
 );
+
+// router.get("/chatUsers", getChatUsers);
 
 router.post("/logout", logoutUser);
 

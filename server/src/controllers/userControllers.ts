@@ -126,3 +126,17 @@ export const updateUser = async (req: Request, res: Response) => {
     console.log(err);
   }
 };
+
+export const getChatUsers = async (req: UserType, res: Response) => {
+  try {
+    const chatUsers = await UserModel.find({
+      _id: { $ne: req?.user?._id },
+    }).select("-password");
+    res.status(StatusCodes.OK).json({ message: "Chat users", chatUsers });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Something went wrong" });
+  }
+};
