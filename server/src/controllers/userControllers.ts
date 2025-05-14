@@ -127,10 +127,10 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getChatUsers = async (req: UserType, res: Response) => {
+export const getChatUsers = async (req: Request, res: Response) => {
   try {
     const chatUsers = await UserModel.find({
-      _id: { $ne: req?.user?._id },
+      _id: { $ne: (req.user as { _id: string })?._id },
     }).select("-password");
     res.status(StatusCodes.OK).json({ message: "Chat users", chatUsers });
   } catch (err) {
