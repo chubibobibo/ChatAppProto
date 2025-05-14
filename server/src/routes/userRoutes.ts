@@ -74,7 +74,7 @@ router.post(
   loginUser
 );
 
-// router.get("/chatUsers", getChatUsers);
+router.get("/chatUsers", getChatUsers);
 
 router.post("/logout", logoutUser);
 

@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { Request } from "express";
 
 export interface UserType extends Request {
   user: {
