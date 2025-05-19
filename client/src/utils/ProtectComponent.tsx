@@ -25,10 +25,10 @@ function ProtectComponent({ children }: { children: ReactNode }) {
     };
     loggedUser();
   }, []);
-  console.log(loggedUserData); //undefined, useEffect did not yet run.
-  console.log(isLoading); //true, components mount first before useEffect
+  //   console.log(loggedUserData); //undefined, useEffect did not yet run.
+  //   console.log(isLoading); //true, components mount first before useEffect
   if (isLoading) return null; //stops first render. Then executes useEffect that changes state causing another re-render
-  console.log(loggedUserData); // changes to loggedUserData state now takes effect
+  //   console.log(loggedUserData); // changes to loggedUserData state now takes effect
   return <>{loggedUserData ? children : <Navigate to='/login' />}</>; //renders children
 }
 export default ProtectComponent;
