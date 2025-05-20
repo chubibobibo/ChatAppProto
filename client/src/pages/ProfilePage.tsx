@@ -1,4 +1,12 @@
+import { useEffect } from "react";
+import { useLoggedUser } from "../libs/useLoggedUser";
 function ProfilePage() {
-  return <div>ProfilePage</div>;
+  const { getLoggedUser, loggedUser } = useLoggedUser();
+  console.log(loggedUser);
+
+  useEffect(() => {
+    getLoggedUser();
+  }, []);
+  return <div>{loggedUser.loggedUser.firstName}</div>;
 }
 export default ProfilePage;
