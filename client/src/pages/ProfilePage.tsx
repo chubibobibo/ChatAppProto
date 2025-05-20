@@ -7,6 +7,6 @@ function ProfilePage() {
   useEffect(() => {
     getLoggedUser();
   }, []);
-  return <div>{loggedUser.loggedUser.firstName}</div>;
+  return <div>{loggedUser?.firstName}</div>;
 }
 export default ProfilePage;

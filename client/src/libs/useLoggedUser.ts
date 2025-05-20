@@ -2,13 +2,25 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const useLoggedUser = create((set) => ({
+interface useLoggedUserType {
+  getLoggedUser: () => void;
+  loggedUser: {
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+    _id: string;
+  } | null;
+}
+
+export const useLoggedUser = create<useLoggedUserType>((set) => ({
   loggedUser: null,
 
   getLoggedUser: async () => {
     try {
       const userData = await axios.get("/api/auth/getLoggedUser");
-      set({ loggedUser: userData.data });
+      set({ loggedUser: userData.data.loggedUser });
     } catch (err) {
       console.log(err);
       if (axios.isAxiosError(err)) {
