@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import UpdateProfileModal from "../components/UpdateProfileModal";
+
 // import { useContext } from "react";
 // import { GetLoggedUserContext } from "../context/ContextData";
 
@@ -9,6 +10,7 @@ function HomePage() {
   const handleCloseModal = () => {
     (document?.getElementById("my_modal_2") as HTMLDialogElement).showModal(); // casts the result of getElementById to HTMLDialogElement that contains the showModal method.
   };
+
   return (
     <>
       <Navbar />
