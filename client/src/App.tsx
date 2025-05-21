@@ -55,7 +55,11 @@ function App() {
           children: [
             {
               path: "profile",
-              element: <ProfilePage />,
+              element: (
+                <ProtectComponent>
+                  <ProfilePage />
+                </ProtectComponent>
+              ),
             },
           ],
         },
