@@ -7,6 +7,8 @@ import {
   LoginPage,
   RegisterPage,
   HomePage,
+  DashboardLayout,
+  ProfilePage,
 } from "./utils";
 
 import { action as LoginAction } from "./pages/LoginPage";
@@ -42,6 +44,24 @@ function App() {
           path: "register",
           element: <RegisterPage />,
           action: RegisterAction,
+        },
+        {
+          path: "dashboard",
+          element: (
+            <ProtectComponent>
+              <DashboardLayout />
+            </ProtectComponent>
+          ),
+          children: [
+            {
+              path: "profile",
+              element: (
+                <ProtectComponent>
+                  <ProfilePage />
+                </ProtectComponent>
+              ),
+            },
+          ],
         },
       ],
     },
