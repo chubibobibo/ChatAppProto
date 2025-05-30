@@ -104,14 +104,33 @@ export const getLoggedUser = async (req: Request, res: Response) => {
 };
 
 /** UPDATE USER */
+/** @foundUser used to check and obtain photoId to destroy in cloudinary using it's API */
+/** @response result coming from cloudinary which contains secure_url, public_id that we can save in DB */
+
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { password } = req.body as BodyPassword;
-    // console.log(id);
 
     const foundUser = await UserModel.findById(id);
-    // console.log(foundUser);
+    if (req.file) {
+      if (foundUser.photoId) {
+        await cloudinary.v2.uploader.destroy(foundUser.photoId);
+      }
+      try {
+        const response = await cloudinary.v2.uploader.upload(req.file.path, {
+          folder: "ChatApp",
+          quality: 70,
+        });
+        fs.unlink(req?.file?.path, (err) => {
+          console.log(err);
+        });
+        req.body.photoUrl = response.secure_url;
+        req.body.photoId = response.public_id;
+      } catch (err) {
+        console.log(err);
+      }
+    }
     if (!foundUser) {
       throw new ExpressError("No user found", StatusCodes.BAD_REQUEST);
     } else {
