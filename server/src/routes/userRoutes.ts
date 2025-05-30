@@ -80,6 +80,12 @@ router.post("/logout", logoutUser);
 
 router.get("/getLoggedUser", getLoggedUser);
 
-router.patch("/updateUser/:id", isLoggedIn, updateUserValidation, updateUser);
+router.patch(
+  "/updateUser/:id",
+  upload.single("photoUrl"),
+  isLoggedIn,
+  updateUserValidation,
+  updateUser
+);
 
 export default router;
