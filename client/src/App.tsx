@@ -13,6 +13,7 @@ import {
 
 import { action as LoginAction } from "./pages/LoginPage";
 import { action as RegisterAction } from "./pages/RegisterPage";
+import { action as UpdateProfileAction } from "./components/cards/ProfileCard";
 
 import LoggedUserContextProvider from "./context/LoggedUserContextProvider";
 import ProtectComponent from "./utils/ProtectComponent";
@@ -54,12 +55,13 @@ function App() {
           ),
           children: [
             {
-              path: "profile",
+              path: "profile/:id",
               element: (
                 <ProtectComponent>
                   <ProfilePage />
                 </ProtectComponent>
               ),
+              action: UpdateProfileAction,
             },
           ],
         },

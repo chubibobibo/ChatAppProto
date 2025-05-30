@@ -20,7 +20,7 @@ function Navbar() {
   };
 
   const handleNavigateToProfile = () => {
-    navigate("/dashboard/profile");
+    navigate(`/dashboard/profile/${userData?._id}`);
   };
   return (
     <>
