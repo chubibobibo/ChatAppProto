@@ -10,7 +10,10 @@ export const isLoggedIn = async (
   next: NextFunction
 ) => {
   if (!req.isAuthenticated()) {
-    throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
+    throw new ExpressError(
+      "User is not authorized. Proceed to login",
+      StatusCodes.UNAUTHORIZED
+    );
   }
   next();
 };

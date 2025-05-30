@@ -22,7 +22,7 @@ export const registerUser = async (
   try {
     const isAdmin = (await UserModel.countDocuments()) === 0;
     req.body.role = isAdmin ? "admin" : "user";
-    console.log(req.file);
+    // console.log(req.file);
     if (req.file) {
       const response = await cloudinary.v2.uploader.upload(req.file.path, {
         folder: "ChatApp",
@@ -108,8 +108,10 @@ export const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { password } = req.body as BodyPassword;
+    // console.log(id);
 
     const foundUser = await UserModel.findById(id);
+    // console.log(foundUser);
     if (!foundUser) {
       throw new ExpressError("No user found", StatusCodes.BAD_REQUEST);
     } else {
@@ -124,13 +126,17 @@ export const updateUser = async (req: Request, res: Response) => {
     }
   } catch (err) {
     console.log(err);
+    throw new ExpressError(
+      "cannot update user profile",
+      StatusCodes.BAD_REQUEST
+    );
   }
 };
 
 export const getChatUsers = async (req: Request, res: Response) => {
   try {
     const chatUsers = await UserModel.find({
-      _id: { $ne: (req.user as { _id: string })?._id },
+      _id: { $ne: (req.user as { _id: string })?._id }, //type assertion that req.user is an object with an _id which is a string
     }).select("-password");
     res.status(StatusCodes.OK).json({ message: "Chat users", chatUsers });
   } catch (err) {
