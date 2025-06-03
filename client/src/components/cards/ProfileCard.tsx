@@ -4,6 +4,7 @@ import UpdateProfileModal from "../UpdateProfileModal";
 import { toast } from "react-toastify";
 import { ActionFunction, redirect } from "react-router-dom";
 import axios from "axios";
+import LoggedUserContextProvider from "../../context/LoggedUserContextProvider";
 
 interface ProfilePropsType {
   username: string;
@@ -51,7 +52,9 @@ function ProfileCard({ dateJoined }: ProfilePropsType) {
 
   return (
     <section className='px-2 md:w-220 md:pt-20'>
-      <UpdateProfileModal />
+      <LoggedUserContextProvider>
+        <UpdateProfileModal />
+      </LoggedUserContextProvider>
       <div className='card bg-base-100 w-auto shadow-sm'>
         <div className='card-body'>
           <p className='card-title'>Date Joined:</p>

@@ -6,7 +6,7 @@ import ProfileCard from "../components/cards/ProfileCard";
 function ProfilePage() {
   const { getLoggedUser, loggedUser } = useLoggedUser();
   const [isLoading, setIsLoading] = useState(true);
-  console.log(loggedUser);
+  // console.log(loggedUser);
 
   useEffect(() => {
     const getUserData = () => {
