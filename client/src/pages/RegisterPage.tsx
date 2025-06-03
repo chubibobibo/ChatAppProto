@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
 function RegisterPage() {
   return (
     <section className='flex justify-center items-center h-screen bg-gray-100'>
-      <RegisterCards />
+      <RegisterCards cardTitle='Register' />
     </section>
   );
 }

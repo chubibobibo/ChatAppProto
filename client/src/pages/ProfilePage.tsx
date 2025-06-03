@@ -9,16 +9,20 @@ function ProfilePage() {
   console.log(loggedUser);
 
   useEffect(() => {
-    try {
-      getLoggedUser();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
+    const getUserData = () => {
+      try {
+        getLoggedUser();
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getUserData();
   }, []);
 
   if (isLoading) return null;
+
   return (
     <>
       <section className='h-screen flex flex-col items-center justify-start gap-3'>
@@ -27,7 +31,13 @@ function ProfilePage() {
         </div>
         <h2 className='card-title capitalize'>{loggedUser?.username}</h2>
         <div>
-          <ProfileCard username={loggedUser?.username} />
+          {loggedUser && (
+            <ProfileCard
+              username={loggedUser?.username}
+              dateJoined={loggedUser?.createdAt}
+              userId={loggedUser._id}
+            />
+          )}
         </div>
       </section>
     </>

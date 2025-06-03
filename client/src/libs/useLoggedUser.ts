@@ -11,6 +11,7 @@ interface useLoggedUserType {
     email: string;
     role: string;
     _id: string;
+    createdAt: string;
   } | null;
 }
 
@@ -20,7 +21,7 @@ export const useLoggedUser = create<useLoggedUserType>((set) => ({
   getLoggedUser: async () => {
     try {
       const userData = await axios.get("/api/auth/getLoggedUser");
-      set({ loggedUser: userData.data.loggedUser });
+      set({ loggedUser: userData?.data?.loggedUser });
     } catch (err) {
       console.log(err);
       if (axios.isAxiosError(err)) {

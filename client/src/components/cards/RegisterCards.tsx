@@ -5,14 +5,18 @@ import BtnCustomBlue from "../btn/BtnCustomBlue";
 import { Form, Link } from "react-router-dom";
 import { useNavigation } from "react-router-dom";
 
-function RegisterCards() {
+interface RegisterCardTypes {
+  cardTitle: string;
+}
+
+function RegisterCards({ cardTitle }: RegisterCardTypes) {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   return (
     <>
       <div className='flex justify-center card mt-9 mb-9 w-74 h-[36rem] bg-base-100 card-md shadow-md md:h-[38rem] md:w-[40rem]'>
         <div className='card-body mt-0'>
-          <h2 className='card-title pb-1 md:-pb-10'>Register</h2>
+          <h2 className='card-title pb-1 md:-pb-10'>{cardTitle}</h2>
           {/** input fields */}
           <Form method='POST' encType='multipart/form-data'>
             <section className='flex flex-col gap-4 md:mt-2'>

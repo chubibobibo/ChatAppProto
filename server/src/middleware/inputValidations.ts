@@ -126,9 +126,11 @@ export const updateUserValidation = withValidationErrors([
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
   param("id").custom(async (id, { req }) => {
-    if (id.toString() !== req.user._id.toString()) {
+    // console.log(req.user._id.toString());
+    // console.log({ id });
+    if (id.toString() != req.user._id.toString()) {
       throw new ExpressError(
-        "User is not authorized.",
+        "User is not authorized. different id",
         StatusCodes.UNAUTHORIZED
       );
     }
