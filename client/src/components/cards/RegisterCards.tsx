@@ -1,5 +1,7 @@
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
+import { useContext } from "react";
+import { GetLoggedUserContext } from "../../context/ContextData";
 import { IoKeyOutline } from "react-icons/io5";
 import BtnCustomBlue from "../btn/BtnCustomBlue";
 import { Form, Link } from "react-router-dom";
@@ -10,6 +12,9 @@ interface RegisterCardTypes {
 }
 
 function RegisterCards({ cardTitle }: RegisterCardTypes) {
+  /** @loggedUserData obtains user data using context */
+  const loggedUserData = useContext(GetLoggedUserContext);
+  console.log(loggedUserData);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   return (
@@ -32,6 +37,7 @@ function RegisterCards({ cardTitle }: RegisterCardTypes) {
                   required
                   placeholder='Username'
                   name='username'
+                  defaultValue={loggedUserData ? loggedUserData?.username : ""}
                 />
               </label>
               <label className='input w-full'>
